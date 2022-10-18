@@ -16,5 +16,5 @@ app.use(cors()); // cors 미들웨어 지정
 socket(socketIo); // socket에 socketIo 모듈 전달
 
 server.listen(PORT, () => {
-    console.log("포트 넘버 : "+app.get('port')+ "에서 실행 중");
+    console.log("포트 넘버 : "+PORT+ "에서 실행 중");
 });
