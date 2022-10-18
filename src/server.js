@@ -10,9 +10,9 @@ const socketIo = require("socket.io")(server, {
         method: ["GET","POST"],
     },
 });
-const socket = require('./src/socket');
+const socket = require('./socket');
 
-app.set('port', process.env.PORT); // 포트 지정
+app.set('port', 5000); // 포트 지정
 app.use(cors({origin: process.env.FRONT_URL, credentials: true})); // cors 미들웨어 지정
 socket(socketIo); // socket에 socketIo 모듈 전달
 
