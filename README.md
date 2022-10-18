@@ -10,3 +10,23 @@
   
 # 배포
 헤로쿠(Heroku)  
+
+```console
+# 헤로쿠 버전 확인 (설치 확인)
+heroku -v 
+
+# 헤로쿠 로그인
+heroku login
+
+# 프로젝트 생성
+heroku create {프로젝트 이름}
+git remote -v (헤로쿠 브런치 체크)
+
+# 서버 배포 (deploy)
+git push heroku master
+```
+
+# 서버 주소
+```console
+https://{프로젝트 이름}.herokuapp.com/{url}
+```
