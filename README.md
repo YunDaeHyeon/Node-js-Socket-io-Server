@@ -8,7 +8,7 @@
 4. env-cmd  
 5. nodemon  
   
-# 배포
+# 배포 (헤로쿠 명령어)
 헤로쿠(Heroku)  
 
 ```console
@@ -24,6 +24,15 @@ git remote -v (헤로쿠 브런치 체크)
 
 # 서버 배포 (deploy)
 git push heroku master
+
+# 로그 확인
+heroku logs
+
+# 배포 확인
+heroku open
+
+# socket io의 경우 (session affinity, mulitiple-nodes 활성화)
+heroku features:enable http-session-affinity
 ```
 
 # 서버 주소
