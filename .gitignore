@@ -1,5 +1,2 @@
 # 의존성 제외
 /node_modules
-
-# 환경변수 제외
-.env.development
