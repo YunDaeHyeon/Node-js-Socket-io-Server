@@ -47,16 +47,16 @@ module.exports = function(socketIo){
 
         // 클라이언트와 연결이 끊어질 때
         socket.on("disconnect", reason => {
+            console.log(`disconnect : ${reason}`);
             socket.on(SOCKET_EVENT.ROOM_EXIT, requestData => {
                 const responseData = {
                     ...requestData,
                     type,
                     time : new Date(),
                 };
-                socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
+                socketIo.to(roomName).emit(SOCKET_EVENT.ROOM_EXIT, responseData);
                 console.log(`${SOCKET_EVENT.ROOM_EXIT} is fired with data : ${JSON.stringify(responseData)}`);
             });
-            console.log(`disconnect : ${reason}`);
         });
     });
 }
