@@ -53,11 +53,6 @@ module.exports = function(socketIo){
             });
         });
 
-        socket.of('/').in(roomName).clients((err, clients) => {
-            // 배열의 userid와 socket id를 비교한다.
-            console.log("접속자 : ",clients) // an array of socket ids
-        });
-
         // 클라이언트와 연결이 끊어질 때
         socket.on("disconnect", reason => {
             console.log(`disconnect : ${reason}`);
