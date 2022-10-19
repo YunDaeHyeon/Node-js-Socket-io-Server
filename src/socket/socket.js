@@ -45,6 +45,7 @@ module.exports = function(socketIo){
                 if(socket.data.username === nickname){
                     socket.leave(roomName);
                 }
+                console.log(socket.data.username);
             }
         }
 
