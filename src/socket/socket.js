@@ -34,8 +34,10 @@ module.exports = function(socketIo){
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
                     socket.nickname = requestData.nickname;
-                    console.log("소켓 개수 : ",socketIo.of("/").sockets.size);
-                    console.log("socketIo 객체 : ",socketIo.of("/").sockets.nickname);
+                    console.log("socketIo 객체 : ",socket.id);
+                    console.log("socketIo의 socket size : ",socketIo.of("/").sockets.size);
+                    console.log("socketIo의 socket id : ",socketIo.of("/").sockets.id);
+                    console.log("socketIo의 rooms : ",socketIo.of("/").sockets.rooms);
                     socket.join(roomName);
                 }
 
