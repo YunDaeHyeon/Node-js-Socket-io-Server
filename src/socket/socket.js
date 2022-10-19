@@ -14,6 +14,7 @@ const SOCKET_EVENT = {
 };
 
 module.exports = function(socketIo){
+    
     socketIo.on("connection", function(socket){
         // 클라이언트와 연결이 성공되었을 시
         console.log("socket connection success");
@@ -28,6 +29,14 @@ module.exports = function(socketIo){
             클라이언트에 RECEIVE 이벤트 emit -> 클라이언트에 응답해준 이벤트와 데이터 로그에 뿌리기
         */
 
+        const getJoinUserList = async() => {
+            const sockets = await socketIo.in(roomName).fetchSockets();
+            console.log("접속중인 사용자 List");
+            for(const socket of sockets){
+                console.log(socket.data.username);
+            }
+        }
+
         Object.keys(SOCKET_EVENT).forEach(typeKey => {
             const type = SOCKET_EVENT[typeKey];
             socket.on(type, requestData => {
@@ -36,9 +45,8 @@ module.exports = function(socketIo){
                 if(firstVisit){
                     socket.data.username = requestData.nickname;
                     socket.join(roomName);
+                    getJoinUserList();
                 } // const sockets = await io.in("room1").fetchSockets();
-
-                console.log("소켓 닉네임 : ", socket.data.username);
     
                 const responseData = {
                     ...requestData,
