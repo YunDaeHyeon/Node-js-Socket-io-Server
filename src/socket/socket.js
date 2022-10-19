@@ -49,7 +49,7 @@ module.exports = function(socketIo){
             socket.on(type, requestData => {
                 const firstVisit = type === SOCKET_EVENT.JOIN_ROOM;
                 const roomLeave = type === SOCKET_EVENT.ROOM_EXIT;
-                const responseData = {};
+                let responseData = {};
 
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
