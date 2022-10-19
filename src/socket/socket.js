@@ -49,12 +49,7 @@ module.exports = function(socketIo){
             socket.on(type, requestData => {
                 const firstVisit = type === SOCKET_EVENT.JOIN_ROOM;
                 const roomLeave = type === SOCKET_EVENT.ROOM_EXIT;
-
-                const responseData = {
-                    ...requestData,
-                    type,
-                    time : new Date(),
-                };
+                const responseData = {};
 
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
@@ -68,7 +63,15 @@ module.exports = function(socketIo){
                     socket.leave(roomName);
                 }
 
-                console.log(getJoinUserList().then(value => {return value}));
+                getJoinUserList().then(value => {
+                    responseData = {
+                        ...requestData,
+                        joinUserList : value,
+                        type,
+                        time : new Date(),
+                    };
+                    console.log(value);
+                });
                 
     
                 socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
