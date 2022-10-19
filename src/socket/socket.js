@@ -65,7 +65,7 @@ module.exports = function(socketIo){
                 }
 
                 const joinUserList = getJoinUserList();
-                console.log(joinUserList);
+                console.log("사용자 리스트 : ",joinUserList);
     
                 socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
                 console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
