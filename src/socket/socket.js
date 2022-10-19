@@ -9,6 +9,7 @@ const SOCKET_EVENT = {
     JOIN_ROOM : "JOIN_ROOM",
     UPDATE_NICKNAME : "UPDATE_NICKNAME",
     SEND_MESSAGE : "SEND_MESSAGE",
+    ROOM_EXIT : "ROOM_EXIT",
     RECEIVE_MESSAGE : "RECEIVE_MESSAGE",
 };
 
@@ -47,15 +48,6 @@ module.exports = function(socketIo){
         // 클라이언트와 연결이 끊어질 때
         socket.on("disconnect", reason => {
             console.log(`disconnect : ${reason}`);
-            socket.on("ROOM_EXIT", requestData => {
-                const responseData = {
-                    ...requestData,
-                    type : "ROOM_EXIT",
-                    time : new Date(),
-                };
-                socketIo.to(roomName).emit("ROOM_EXIT", responseData);
-                console.log(`"ROOM_EXIT" is fired with data : ${JSON.stringify(responseData)}`);
-            });
         });
     });
 }
