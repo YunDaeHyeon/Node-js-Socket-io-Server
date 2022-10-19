@@ -17,6 +17,14 @@ module.exports = function(socketIo){
     socketIo.on("connection", function(socket){
         // 클라이언트와 연결이 성공되었을 시
         console.log("socket connection success");
+
+        //
+        console.log("!! ===  공사중 ===  !!!")
+        console.log(socket.id);
+        console.log(socket.nickname);
+        console.log("!! ===  공사중 ===  !!!")
+        
+
         const roomName = "room 1";
         /*
             1. 클라이언트에서 JOIN_ROOM이라는 이벤트 타입으로 데이터를 소켓 서버로 전달
