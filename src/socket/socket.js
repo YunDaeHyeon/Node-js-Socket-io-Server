@@ -35,7 +35,7 @@ module.exports = function(socketIo){
                 if(firstVisit){
                     socket.nickname = requestData.nickname;
                     console.log("소켓 개수 : ",socketIo.of("/").sockets.size);
-                    console.log("socketIo 객체 : ",socketIo.of("/").sockets);
+                    console.log("socketIo 객체 : ",socketIo.of("/").sockets.nickname);
                     socket.join(roomName);
                 }
 
