@@ -29,11 +29,22 @@ module.exports = function(socketIo){
             클라이언트에 RECEIVE 이벤트 emit -> 클라이언트에 응답해준 이벤트와 데이터 로그에 뿌리기
         */
 
+        // 접속중인 사용자 List
         const getJoinUserList = async() => {
             const sockets = await socketIo.in(roomName).fetchSockets();
             console.log("접속중인 사용자 List");
             for(const socket of sockets){
                 console.log(socket.data.username);
+            }
+        }
+
+        const setLeaveRoomHandle = async(nickname) => {
+            const sockets = await socketIo.in(roomName).fetchSockets();
+            console.log(`${nickname}님이 방을 떠났습니다.`);
+            for(const socket of sockets){
+                if(socket.data.username === nickname){
+                    socket.leave(roomName);
+                }
             }
         }
 
@@ -51,7 +62,7 @@ module.exports = function(socketIo){
 
                 // 방을 떠난 유저는 leave 처리
                 if(roomLeave){
-                    socket.leave(roomName);
+                    setLeaveRoomHandle(socket.data.username);
                 }
     
                 const responseData = {
