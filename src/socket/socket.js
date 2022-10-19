@@ -41,12 +41,18 @@ module.exports = function(socketIo){
             const type = SOCKET_EVENT[typeKey];
             socket.on(type, requestData => {
                 const firstVisit = type === SOCKET_EVENT.JOIN_ROOM;
+                const roomLeave = type === SOCKET_EVENT.ROOM_EXIT;
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
                     socket.data.username = requestData.nickname;
                     socket.join(roomName);
                     getJoinUserList();
                 } // const sockets = await io.in("room1").fetchSockets();
+
+                // 방을 떠난 유저는 leave 처리
+                if(roomLeave){
+                    socket.leave(roomName);
+                }
     
                 const responseData = {
                     ...requestData,
