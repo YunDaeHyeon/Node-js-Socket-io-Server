@@ -32,10 +32,12 @@ module.exports = function(socketIo){
         // 접속중인 사용자 List
         const getJoinUserList = async() => {
             const sockets = await socketIo.in(roomName).fetchSockets();
+            const joinUserList = [];
             console.log("접속중인 사용자 List");
             for(const socket of sockets){
-                console.log(socket.data.username);
+                joinUserList.push(socket.data.username);
             }
+            return joinUserList;   
         }
 
         Object.keys(SOCKET_EVENT).forEach(typeKey => {
@@ -43,8 +45,16 @@ module.exports = function(socketIo){
             socket.on(type, requestData => {
                 const firstVisit = type === SOCKET_EVENT.JOIN_ROOM;
                 const roomLeave = type === SOCKET_EVENT.ROOM_EXIT;
+
+                const responseData = {
+                    ...requestData,
+                    type,
+                    time : new Date(),
+                };
+
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
+                    // 클라이언트에서 input으로 넘어온 닉네임(requestData.nickname)을 소켓의 username으로 설정(socket.data.username)
                     socket.data.username = requestData.nickname;
                     socket.join(roomName);
                 } // const sockets = await io.in("room1").fetchSockets();
@@ -54,13 +64,9 @@ module.exports = function(socketIo){
                     socket.leave(roomName);
                 }
 
-                getJoinUserList();
+                const joinUserList = getJoinUserList();
+                console.log(joinUserList);
     
-                const responseData = {
-                    ...requestData,
-                    type,
-                    time : new Date(),
-                };
                 socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
                 console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
             });
