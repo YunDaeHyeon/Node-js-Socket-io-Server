@@ -45,7 +45,6 @@ module.exports = function(socketIo){
                 if(socket.data.username === nickname){
                     socket.leave(roomName);
                 }
-                console.log(socket.data.username);
             }
         }
 
@@ -58,13 +57,14 @@ module.exports = function(socketIo){
                 if(firstVisit){
                     socket.data.username = requestData.nickname;
                     socket.join(roomName);
-                    getJoinUserList();
                 } // const sockets = await io.in("room1").fetchSockets();
 
                 // 방을 떠난 유저는 leave 처리
                 if(roomLeave){
                     setLeaveRoomHandle(socket.data.username);
                 }
+
+                getJoinUserList();
     
                 const responseData = {
                     ...requestData,
