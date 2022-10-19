@@ -38,10 +38,13 @@ module.exports = function(socketIo){
             const type = SOCKET_EVENT[typeKey];
             socket.on(type, requestData => {
                 const firstVisit = type === SOCKET_EVENT.JOIN_ROOM;
-                // 방에 처음 참가한 유저는 room 1에 할당
+                // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
+                    socket.nickname = requestData.nickname;
                     socket.join(roomName);
                 }
+
+                console.log("소켓 닉네임 : ", socket.nickname);
     
                 const responseData = {
                     ...requestData,
