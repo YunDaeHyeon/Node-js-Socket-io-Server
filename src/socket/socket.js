@@ -44,8 +44,17 @@ module.exports = function(socketIo){
             });
         });
 
-        // 클라이언트와 연결이 끊어지면 이유 출력
-        socket.on("disconnect", reason => {
+        // 클라이언트와 연결이 끊어질 때
+        socket.on("disconnecting", reason => {
+            socket.on("ROOM_EXIT", requestData => {
+                const responseData = {
+                    ...requestData,
+                    type: "ROOM_EXIT",
+                    time: new Date(),
+                };
+                socket.to(roomName).emit("ROOM_EXIT", responseData);
+                console.log(`"ROOM_EXIT" is fired with data : ${JSON.stringify(responseData)}`);
+            });
             console.log(`disconnect : ${reason}`);
         });
     });
