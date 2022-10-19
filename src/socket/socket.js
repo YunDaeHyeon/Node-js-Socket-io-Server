@@ -27,6 +27,8 @@ module.exports = function(socketIo){
             즉, 방에 처음 참가한 유저는 room 1에 할당 -> 이벤트 타입과 함께 받은 데이터를 가공 후 응답해줄 데이터 생성 ->
             클라이언트에 RECEIVE 이벤트 emit -> 클라이언트에 응답해준 이벤트와 데이터 로그에 뿌리기
         */
+
+        console.log(socketIo.of("/").sockets);
         Object.keys(SOCKET_EVENT).forEach(typeKey => {
             const type = SOCKET_EVENT[typeKey];
             socket.on(type, requestData => {
