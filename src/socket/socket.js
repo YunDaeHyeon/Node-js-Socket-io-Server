@@ -36,7 +36,7 @@ module.exports = function(socketIo){
         */
         Object.keys(SOCKET_EVENT).forEach(typeKey => {
             const type = SOCKET_EVENT[typeKey];
-            socket.of("/").adapter.on(type, requestData => {
+            socket.on(type, requestData => {
                 const firstVisit = type === SOCKET_EVENT.JOIN_ROOM;
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
@@ -61,4 +61,6 @@ module.exports = function(socketIo){
             console.log(`disconnect : ${reason}`);
         });
     });
+
+    console.log("소켓 개수 : ",socketIo.of("/").sockets.size);
 }
