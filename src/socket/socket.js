@@ -38,16 +38,6 @@ module.exports = function(socketIo){
             }
         }
 
-        const setLeaveRoomHandle = async(nickname) => {
-            const sockets = await socketIo.in(roomName).fetchSockets();
-            console.log(`${nickname}님이 방을 떠났습니다.`);
-            for(const socket of sockets){
-                if(socket.data.username === nickname){
-                    socket.leave(roomName);
-                }
-            }
-        }
-
         Object.keys(SOCKET_EVENT).forEach(typeKey => {
             const type = SOCKET_EVENT[typeKey];
             socket.on(type, requestData => {
@@ -61,7 +51,7 @@ module.exports = function(socketIo){
 
                 // 방을 떠난 유저는 leave 처리
                 if(roomLeave){
-                    setLeaveRoomHandle(socket.data.username);
+                    socket.leave(roomName);
                 }
 
                 getJoinUserList();
