@@ -31,13 +31,17 @@ module.exports = function(socketIo){
 
         // 접속중인 사용자 List
         const getJoinUserList = async() => {
-            const sockets = await socketIo.in(roomName).fetchSockets();
-            const joinUserList = [];
-            console.log("접속중인 사용자 List");
-            for(const socket of sockets){
-                joinUserList.push(socket.data.username);
+            try{
+                const sockets = await socketIo.in(roomName).fetchSockets();
+                const joinUserList = [];
+                console.log("접속중인 사용자 List");
+                for(const socket of sockets){
+                    joinUserList.push(socket.data.username);
+                }
+                return joinUserList;   
+            }catch(error){
+                return error;
             }
-            return joinUserList;   
         }
 
         Object.keys(SOCKET_EVENT).forEach(typeKey => {
@@ -64,8 +68,8 @@ module.exports = function(socketIo){
                     socket.leave(roomName);
                 }
 
-                const joinUserList = getJoinUserList();
-                console.log("사용자 리스트 : ",joinUserList);
+                getJoinUserList().then(value => {console.log("사용자 리스트 : ",value);});
+                
     
                 socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
                 console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
