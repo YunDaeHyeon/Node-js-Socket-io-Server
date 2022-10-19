@@ -68,7 +68,7 @@ module.exports = function(socketIo){
                     socket.leave(roomName);
                 }
 
-                getJoinUserList().then(value => {console.log("사용자 리스트 : ",value);});
+                console.log(getJoinUserList().then(value => {return value}));
                 
     
                 socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
