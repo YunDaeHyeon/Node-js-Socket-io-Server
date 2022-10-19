@@ -41,6 +41,7 @@ module.exports = function(socketIo){
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
                     socket.nickname = requestData.nickname;
+                    console.log("소켓 개수 : ",socketIo.of("/").sockets.size);
                     socket.join(roomName);
                 }
 
@@ -61,6 +62,4 @@ module.exports = function(socketIo){
             console.log(`disconnect : ${reason}`);
         });
     });
-
-    console.log("소켓 개수 : ",socketIo.of("/").sockets.size);
 }
