@@ -36,11 +36,13 @@ module.exports = function(socketIo){
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
                     socket.nickname = requestData.nickname;
+                    socket.join(roomName);
                     console.log("socketIo 객체 : ",socket.id);
                     console.log("socketIo의 socket size : ",socketIo.of("/").sockets.size);
-                    console.log("socketIo의 socket id : ",socketIo.of("/").sockets.id);
-                    console.log("socketIo의 rooms : ",socketIo.of("/").sockets.rooms);
-                    socket.join(roomName);
+                    socketIo.of('/').in(roomName).clients((err, clients) => {
+                        // 배열의 userid와 socket id를 비교한다.
+                        console.log("clients",clients); // an array of socket ids
+                    });
                 }
 
                 console.log("소켓 닉네임 : ", socket.nickname);
