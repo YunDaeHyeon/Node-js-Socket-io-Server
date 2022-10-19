@@ -46,7 +46,7 @@ module.exports = function(socketIo){
         });
 
         // 클라이언트와 연결이 끊어질 때
-        socket.on("disconnecting", reason => {
+        socket.on("disconnect", reason => {
             socket.on(SOCKET_EVENT.ROOM_EXIT, requestData => {
                 const responseData = {
                     ...requestData,
