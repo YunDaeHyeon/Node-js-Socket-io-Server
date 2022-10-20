@@ -76,22 +76,12 @@ module.exports = function(socketIo){
                 getJoinUserList().then(value => {
                     // SENDMESSAGE를 제외한 모든 이벤트(입장, 이름 변경, 퇴장)는 현재 room에 존재하는 모든 socket 데이터를 전송한다.
                     if(!sendMessage){
-                        // 만약, 이름 변경 이벤트라면 prevNickname을 제외하고 클라이언트로 전달해야함.
-                        if(updateName){
-                            responseData = {
-                                nickname: socket.data.username,
-                                joinUserList: value,
-                                type,
-                                time: new Date(),
-                            };
-                        }else{
-                            responseData = {
-                                ...requestData,
-                                joinUserList : value,
-                                type,
-                                time : new Date(),
-                            };
-                        }
+                        responseData = {
+                            ...requestData,
+                            joinUserList : value,
+                            type,
+                            time : new Date(),
+                        };
                     }
                     socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
                     console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
