@@ -65,8 +65,7 @@ module.exports = function(socketIo){
 
                 // 닉네임 업데이트
                 if(updateName){
-                    console.log("바뀐 닉네임 : ",requestData.prevNickname);
-                    socket.data.username = requestData.prevNickname;
+                    socket.data.username = requestData.prevNickname; // socket의 기존 닉네임을 새로운 닉네임으로 변경
                 }
 
                 // 방을 떠난 유저는 leave 처리
