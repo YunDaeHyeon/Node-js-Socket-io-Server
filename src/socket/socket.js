@@ -84,9 +84,9 @@ module.exports = function(socketIo){
                             time : new Date(),
                         };
                     }
+                    socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
+                    console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
                 });
-                socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
-                console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
             });
         });
 
