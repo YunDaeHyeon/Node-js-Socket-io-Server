@@ -48,8 +48,14 @@ module.exports = function(socketIo){
             const type = SOCKET_EVENT[typeKey];
             socket.on(type, requestData => {
                 const firstVisit = type === SOCKET_EVENT.JOIN_ROOM;
+                const updateName = type === SOCKET_EVENT.UPDATE_NICKNAME;
+                const sendMessage = type === SOCKET_EVENT.SEND_MESSAGE;
                 const roomLeave = type === SOCKET_EVENT.ROOM_EXIT;
-                let responseData = {};
+                let responseData = {
+                    ...requestData,
+                    type,
+                    time : new Date(),
+                };
 
                 // 방에 처음 참가한 유저는 room 1에 할당 / socket.nickname 설정
                 if(firstVisit){
@@ -58,23 +64,29 @@ module.exports = function(socketIo){
                     socket.join(roomName);
                 } // const sockets = await io.in("room1").fetchSockets();
 
+                // 닉네임 업데이트
+                if(updateName){
+                    socket.data.username = requestData.prevNickname;
+                }
+
                 // 방을 떠난 유저는 leave 처리
                 if(roomLeave){
                     socket.leave(roomName);
                 }
 
                 getJoinUserList().then(value => {
-                    responseData = {
-                        ...requestData,
-                        joinUserList : value,
-                        type,
-                        time : new Date(),
-                    };
-                    console.log(value);
-                    console.log(responseData);
-                    socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
-                    console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
+                    // SENDMESSAGE를 제외한 모든 이벤트(입장, 이름 변경, 퇴장)는 현재 room에 존재하는 모든 socket 데이터를 전송한다.
+                    if(!sendMessage){
+                        responseData = {
+                            ...requestData,
+                            joinUserList : value,
+                            type,
+                            time : new Date(),
+                        };
+                    }
                 });
+                socketIo.to(roomName).emit(SOCKET_EVENT.RECEIVE_MESSAGE, responseData);
+                console.log(`${type} is fired with data : ${JSON.stringify(responseData)}`);
             });
         });
 
