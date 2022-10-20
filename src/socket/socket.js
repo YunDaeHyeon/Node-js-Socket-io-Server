@@ -34,7 +34,6 @@ module.exports = function(socketIo){
             try{
                 const sockets = await socketIo.in(roomName).fetchSockets();
                 const joinUserList = [];
-                console.log("접속중인 사용자 List");
                 for(const socket of sockets){
                     joinUserList.push(socket.data.username);
                 }
@@ -66,6 +65,7 @@ module.exports = function(socketIo){
 
                 // 닉네임 업데이트
                 if(updateName){
+                    console.log("바뀐 닉네임 : ",requestData.prevNickname);
                     socket.data.username = requestData.prevNickname;
                 }
 
