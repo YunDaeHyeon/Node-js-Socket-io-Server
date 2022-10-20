@@ -1,5 +1,7 @@
 # React & Node.js(Express) & Socket.io를 이용한 채팅 서비스 - Server
 시작 : 22.10.16  
+종료 : 22.10.21  
+배포 주소 : https://daegom.com/Node-js-Socket-io-Client  
   
 # Stack
 1. Express  
